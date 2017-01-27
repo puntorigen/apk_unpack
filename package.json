@@ -1,0 +1,19 @@
+{
+  "name": "apk_unpack",
+  "version": "1.0.0",
+  "description": "NodeJS APK unpacker",
+  "main": "apk_unpack.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "creador",
+    "apk",
+    "unpack",
+    "android",
+    "java",
+    "source"
+  ],
+  "author": "Pablo Schaffner",
+  "license": "MIT"
+}
