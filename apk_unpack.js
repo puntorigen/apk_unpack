@@ -16,21 +16,26 @@ var	classes 	= 	{
 };
 
 var extractAPK = function(apkfile, outputdir, cb) {
-	var _apk = apkfile;
+	var _apk = apkfile,
+		_outd = outputdir;
 	if (_apk.charAt(0)!=path.sep && _apk.charAt(0)!='~') {
 		_apk = path.join(cwd,_apk);
+	}
+	if (_outd.charAt(_outd.length-1)!=path.sep) {
+		// if outputdir doesn't end in / or path separator, add it.
+		_outd = _outd+''+path.sep;
 	}
 	//console.log('apkfile:'+_apk,outputdir);
 	/*if (!dirExists(outputdir)) {
 		fs.mkdirSync(outputdir);
 	}*/
 	if (fileExists(apkfile)) {
-		_last.dir = outputdir;
+		_last.dir = _outd;
 		var decoder = new classes.ApkDecoder();
 		var _apkfile = new classes.File(_apk);
 		decoder.setForceDeleteSync(true);
 		decoder.setDecodeResourcesSync(java.newShort(256));	// exclude resources
-		decoder.setOutDirSync(new classes.File(outputdir));
+		decoder.setOutDirSync(new classes.File(_outd));
 		decoder.setApkFileSync(_apkfile);
 		decoder.decodeSync();
 		// try to decrypt manifest
@@ -38,7 +43,7 @@ var extractAPK = function(apkfile, outputdir, cb) {
 		var _res = decoder.getResTableSync();
 		var _ext = new classes.ExtFile(_apkfile);
 		var _lib = new classes.libResources();
-		_lib.decodeManifest(_res, _ext, new classes.File(outputdir), function() {
+		_lib.decodeManifest(_res, _ext, new classes.File(_outd), function() {
 			cb(true);
 		});
 	} else {
@@ -92,17 +97,5 @@ var dirExists = function(filePath)
     }
 }
 
-extractAPK('test/tester.apk',path.join(cwd,'out2' + path.sep), 
-	function() { 
-		console.log('ready!'); 
-		info(function(err,meta) {
-			console.log('APK info',meta);
-		});
-	}
-);
-/*
-try {
-	export.extract = extractAPK;
-	export.info = info;
-} catch(_aa) {
-}*/
+exports.extract = extractAPK;
+exports.info = info;

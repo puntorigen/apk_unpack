@@ -1,6 +1,6 @@
 {
   "name": "apk_unpack",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "NodeJS APK unpacker",
   "main": "apk_unpack.js",
   "scripts": {
@@ -15,5 +15,17 @@
     "source"
   ],
   "author": "Pablo Schaffner",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "java": "^0.8.0",
+    "line-reader": "^0.4.0"
+  },
+  "bin": {
+    "cli": "./apk_unpack"
+  },
+  "repository" : {   
+      "type" : "git", 
+      "url"  : "https://github.com/creador/apk_unpack.git"
+  }
 }
