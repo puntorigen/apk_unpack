@@ -7,7 +7,7 @@ var	fs 			=	require('fs'),
 	_last		= 	{ dir:'' },
 	cwd 		= 	process.cwd();
 	
-java.classpath.push('java/apktool_2.2.2.jar');
+java.classpath.push(__dirname+path.sep+'java/apktool_2.2.2.jar');
 var	classes 	= 	{
 	ApkDecoder 		: 	java.import('brut.androlib.ApkDecoder'),
 	libResources 	: 	java.import('brut.androlib.res.AndrolibResources'),

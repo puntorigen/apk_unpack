@@ -18,9 +18,9 @@ It comes with a commandline that you can use as follows:
 
 ## UPDATES
 
-version 1.0.7:
-- Prettyfied readme.md file
-- Fix for command-line call
+version 1.1.1:
+- Fixed java class location for using command-line as bin
 
-version 1.0.3:
+version 1.0.3-9:
+- Prettyfied readme.md file
 - Add readme.md file

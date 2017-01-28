@@ -1,6 +1,6 @@
 {
   "name": "apk_unpack",
-  "version": "1.0.7",
+  "version": "1.1.1",
   "description": "NodeJS APK unpacker",
   "main": "apk_unpack.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "source"
   ],
   "author": "Pablo Schaffner",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "cheerio": "^0.22.0",
     "java": "^0.8.0",
