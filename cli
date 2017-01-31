@@ -19,8 +19,13 @@ if (args.length==2) {
 	if (args[1].charAt(0)==path.sep) {
 		_dir = args[1];	// if directory starts with a path separator, then we assume its an absolute directory.
 	}
-	apk.extract(_apk, _dir, function(err) {
-		if (!err) console.log('ready!');
+	apk.init({ apk:_apk, dir:_dir, java:true });
+	apk.extract(function(err) {
+		//if (!err) console.log('ready!');
+		console.log('extracting and decrypting classes.dex');
+		apk.decompile(function() {
+			console.log('ready');
+		});
 	});
 
 } else {
