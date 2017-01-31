@@ -1,6 +1,6 @@
 {
   "name": "apk_unpack",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "NodeJS APK unpacker",
   "main": "apk_unpack.js",
   "scripts": {
