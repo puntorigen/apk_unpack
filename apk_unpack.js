@@ -11,8 +11,15 @@ var	fs 			=	require('fs'),
 		java 		: 	true,
 		dir 		: 	''
 	};
-	
+
+// capture console out
+/*var access = fs.createWriteStream(cwd + path.sep + 'apk_unpack.log');
+process.stdout.write = process.stderr.write = access.write.bind(access);*/
+
+// apktool
 java.classpath.push(__dirname+path.sep+'java/apktool_2.2.2.jar');
+// jd-cli
+java.classpath.push(__dirname+path.sep+'java/jd-cli.jar');
 // add classes for DEX 2 JAR
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'antlr-runtime-3.5.jar');
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'asm-debug-all-4.1.jar');
@@ -36,7 +43,12 @@ var	classes 	= 	{
 	//dex2jar
 	_dex2jar 	 	: 	java.import('com.googlecode.d2j.dex.Dex2jar'),
 	_dexFileReader	: 	java.import('com.googlecode.d2j.reader.DexFileReader'),
-	_dexZipUtil		: 	java.import('com.googlecode.d2j.reader.zip.ZipUtil')
+	_dexZipUtil		: 	java.import('com.googlecode.d2j.reader.zip.ZipUtil'),
+	//jd-cli
+	_jdCli 					: 	java.import('jd.cli.Main'),
+	_jdCli_DirOutput 		: 	java.import('jd.core.output.DirOutput'),
+	_jdCli_MultiOutput 		: 	java.import('jd.core.output.MultiOutput'),
+	_jdCli_JavaDecompiler 	: 	java.import('jd.ide.intellij.JavaDecompiler')
 };
 
 var init = function(config) {
@@ -83,6 +95,15 @@ var decompile = function(onReady) {
 		// decrypt dex into jar, using dex2jar
 		dexToJar(function() {
 			// get java code using jd-cli
+			var _dir = new classes.File(_last.dir + 'src' + path.sep);
+			var _dexjar = new classes.File(_last.dir + 'classes.jar');
+			console.log('decompiling classes.jar to: ',_last.dir + 'src' + path.sep);
+			var outPlugins = java.newInstanceSync("java.util.ArrayList");
+			outPlugins.addSync(new classes._jdCli_DirOutput(_dir));
+			var outputPlugin = new classes._jdCli_MultiOutput(outPlugins);
+			var inOut = classes._jdCli.getInOutPluginsSync(_dexjar, outputPlugin);
+			var javaDecompiler = new classes._jdCli_JavaDecompiler();
+			inOut.getJdInputSync().decompileSync(javaDecompiler, inOut.getJdOutputSync());
 			onReady();
 		});
 	});

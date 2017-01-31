@@ -15,7 +15,7 @@ java (true if you want the decrypted classes.jar)<br/><br/>
 This does the extraction of assets and sources into the given outputdir.  
 
 ### decompile (onReadyCB).
-This extracts and decrypts the classes.dex from the given APK.
+This extracts and decrypts the classes.dex from the given APK, also recovers .java files.
 
 ### info (callback(err,data)).  
 Retrieves decrypted manifest information about the extracted apkfile from method one.  
@@ -26,6 +26,9 @@ It comes with a commandline that you can use as follows:
 **apk_unpack** `apkfile.apk` `outputdir`
 
 ## UPDATES
+
+version 1.1.4: 
+- added ability to decompile classes into .java files
 
 version 1.1.3:
 - added ability to extract classes.dex and decode its contents using dex2jar
