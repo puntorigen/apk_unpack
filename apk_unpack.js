@@ -16,11 +16,10 @@ var	fs 			=	require('fs'),
 /*var access = fs.createWriteStream(cwd + path.sep + 'apk_unpack.log');
 process.stdout.write = process.stderr.write = access.write.bind(access);*/
 
-// apktool
-java.classpath.push(__dirname+path.sep+'java/apktool_2.2.2.jar');
-// jd-cli
-java.classpath.push(__dirname+path.sep+'java/jd-cli.jar');
 // add classes for DEX 2 JAR
+java.classpath.pushDir(__dirname+path.sep+'java/dex2jar/');
+java.classpath.pushDir(__dirname+path.sep+'java/');
+/*
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'antlr-runtime-3.5.jar');
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'asm-debug-all-4.1.jar');
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'d2j-base-cmd-2.0.jar');
@@ -33,6 +32,11 @@ java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'dex-writer-2.0.jar');
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'dex-translator-2.0.jar');
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'dex-reader-2.0.jar');
 java.classpath.push(__dirname+path.sep+'java/dex2jar/'+'dx-1.7.jar');
+// apktool
+java.classpath.push(__dirname+path.sep+'java/apktool_2.2.2.jar');
+// jd-cli
+java.classpath.push(__dirname+path.sep+'java/jd-cli.jar');
+*/
 
 //
 var	classes 	= 	{

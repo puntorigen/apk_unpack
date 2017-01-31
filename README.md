@@ -27,7 +27,7 @@ It comes with a commandline that you can use as follows:
 
 ## UPDATES
 
-version 1.1.4: 
+version 1.1.4-6: 
 - added ability to decompile classes into .java files
 
 version 1.1.3:
