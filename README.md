@@ -2,7 +2,7 @@ APK Unpack
 ==============================
 ## INTRO
 
-This package and command-line helps you unpack any APK (get its smali sources) and decrypt its manifest.  
+This package and command-line helps you unpack any APK (get its assets and java sources) and decrypt its manifest.  
 It contains 4 main methods:
 
 ### init (config).  
@@ -26,6 +26,9 @@ It comes with a commandline that you can use as follows:
 **apk_unpack** `apkfile.apk` `outputdir`
 
 ## UPDATES
+
+version 1.1.7-8:
+- improved classpath importing
 
 version 1.1.4-6: 
 - added ability to decompile classes into .java files
