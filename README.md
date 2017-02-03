@@ -29,6 +29,9 @@ apk_unpack apkfile.apk outputdir
 
 ## UPDATES
 
+version 1.2.1:
+- avoided error that hanged the jvm thread sometimes.
+
 version 1.1.9:
 - now uses JADX instead of dex2jar and jd-cli. Faster and works better for some apks.
 - reduced logging output of java classes.

@@ -19,6 +19,7 @@ process.stdout.write = process.stderr.write = access.write.bind(access);*/
 // add classes for JADX and apktool
 java.classpath.pushDir(__dirname+path.sep+'java/jadx/');
 java.classpath.pushDir(__dirname+path.sep+'java/');
+java.options.push('-Xrs'); // reduce signal os signals 
 //
 
 var	classes 	= 	{
@@ -29,7 +30,9 @@ var	classes 	= 	{
 	//jadx
 	_jadx 			: 	java.import('jadx.api.JadxDecompiler'),
 	_jadx_args		: 	java.import('jadx.cli.JadxCLIArgs'),
-	_javalog 		: 	java.import('java.util.logging.LogManager')
+	_javalog 		: 	java.import('java.util.logging.LogManager'),
+	_jadx_javaclass	: 	java.import('jadx.api.JavaClass'),
+	_jadx_classnode	: 	java.import('jadx.core.dex.nodes.ClassNode'),
 };
 
 var init = function(config) {
@@ -83,12 +86,27 @@ var decompile = function(onReady) {
 		var _args = new classes._jadx_args();
 		_args.setOutputDir(_dir);
 		var jadx = new classes._jadx(_args);
-		//jadx.setOutputDir(_dir);
+		jadx.setOutputDir(_dir);
+		//get sources manually, to avoid threads
+		/*jadx.loadFiles(_dexs, function() {
+			console.log('requesting classes:');
+			var _j_classes = jadx.getClassesSync();
+			console.log('got classes:',_j_classes);
+			for (var _o in _j_classes) {
+				//var _cl_node = new classes._jadx_classnode();
+				var cls = new classes._jadx_javaclass(_j_classes[_o], jadx);
+				console.log(cls);
+				//.decompile(function(){
+				//	console.log('decompiling class:'+_o);
+				//});
+			}
+		});*/
+		/**/
 		jadx.loadFiles(_dexs, function() {
 			jadx.save(function() {
 				onReady();
 			});
-		});
+		});/**/
 	});
 };
 
