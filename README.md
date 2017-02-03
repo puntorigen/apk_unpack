@@ -23,9 +23,15 @@ Retrieves decrypted manifest information about the extracted apkfile from method
 ## USAGE
 It comes with a commandline that you can use as follows:  
 
-**apk_unpack** `apkfile.apk` `outputdir`
+```javascript
+apk_unpack apkfile.apk outputdir
+```
 
 ## UPDATES
+
+version 1.1.9:
+- now uses JADX instead of dex2jar and jd-cli. Faster and works better for some apks.
+- reduced logging output of java classes.
 
 version 1.1.7-8:
 - improved classpath importing

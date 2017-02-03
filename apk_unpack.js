@@ -28,7 +28,8 @@ var	classes 	= 	{
 	File 			:	java.import('java.io.File'),
 	//jadx
 	_jadx 			: 	java.import('jadx.api.JadxDecompiler'),
-	_jadx_args		: 	java.import('jadx.cli.JadxCLIArgs')
+	_jadx_args		: 	java.import('jadx.cli.JadxCLIArgs'),
+	_javalog 		: 	java.import('java.util.logging.LogManager')
 };
 
 var init = function(config) {
@@ -44,6 +45,8 @@ var init = function(config) {
 		// if outputdir doesn't end in / or path separator, add it.
 		_config.full_dir = _config.dir+''+path.sep;
 	}
+	// turn standard java logger off
+	classes._javalog.getLogManagerSync().resetSync();
 };
 
 var extractAPK = function(cb) {
@@ -72,44 +75,21 @@ var extractAPK = function(cb) {
 var decompile = function(onReady) {
 	// extract classes.dex into output
 	extract_dex(function() {
-		// decrypt dex into jar, using dex2jar
-		/*dexToJar(function() {
-			// get java code using jd-cli
-			var _dir = new classes.File(_last.dir + 'src' + path.sep);
-			var _dexjar = new classes.File(_last.dir + 'classes.jar');
-			console.log('decompiling classes.jar to: ',_last.dir + 'src' + path.sep);
-			var outPlugins = java.newInstanceSync("java.util.ArrayList");
-			outPlugins.addSync(new classes._jdCli_DirOutput(_dir));
-			var outputPlugin = new classes._jdCli_MultiOutput(outPlugins);
-			var inOut = classes._jdCli.getInOutPluginsSync(_dexjar, outputPlugin);
-			var javaDecompiler = new classes._jdCli_JavaDecompiler();
-			inOut.getJdInputSync().decompileSync(javaDecompiler, inOut.getJdOutputSync());
-			onReady();
-		});*/
 		// decrypt dex into src, using jadx
 		var _dir = new classes.File(_last.dir + 'src' + path.sep);
 		var _dex = new classes.File(_last.dir + 'classes.dex');
+		var _dexs = java.newInstanceSync("java.util.ArrayList");
+		_dexs.addSync(_dex);
 		var _args = new classes._jadx_args();
 		_args.setOutputDir(_dir);
-		var jadx = new classes._jadx();
-		jadx.setOutputDir(_dir);
-		jadx.loadFile(_dex);
-		jadx.saveSync();
+		var jadx = new classes._jadx(_args);
+		//jadx.setOutputDir(_dir);
+		jadx.loadFiles(_dexs, function() {
+			jadx.save(function() {
+				onReady();
+			});
+		});
 	});
-};
-
-var dexToJar = function(onReady) {
-	// decrypt dex into jar, using dex2jar
-	_last.dex  		=  	_last.dir + 'classes.dex';
-	_last.dexjar 	=  	_last.dir + 'classes.jar';
-	var _dex 		= 	new classes.File(_last.dex);
-	var _dexjar 	= 	new classes.File(_last.dexjar);
-	// delay for releaasing classes.dex 
-	setTimeout(function(){
-		var _reader 	= 	new classes._dexFileReader(_dex);
-		classes._dex2jar.fromSync(_reader).toSync(_dexjar.toPathSync());
-		onReady();
-	}, 300);
 };
 
 var extract_dex = function(onReady) {
@@ -126,7 +106,9 @@ var extract_dex = function(onReady) {
 					if (entry.fileName=='classes.dex') {
 						readStream.pipe(fs.createWriteStream(_last.dir + entry.fileName));
 						zipfile.close();
-						onReady();
+						setTimeout(function(){
+							onReady();	
+						}, 350); // delay for zip to release lock on dex
 					}
 				});
 			}

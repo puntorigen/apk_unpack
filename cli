@@ -22,9 +22,9 @@ if (args.length==2) {
 	apk.init({ apk:_apk, dir:_dir, java:true });
 	apk.extract(function(err) {
 		//if (!err) console.log('ready!');
-		console.log('extracting and decrypting classes.dex');
+		console.log('apk_unpack -> decompiling classes.dex');
 		apk.decompile(function() {
-			console.log('ready');
+			console.log('apk_unpack -> ready');
 		});
 	});
 
