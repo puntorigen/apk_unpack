@@ -16,8 +16,8 @@ var	fs 			=	require('fs'),
 /*var access = fs.createWriteStream(cwd + path.sep + 'apk_unpack.log');
 process.stdout.write = process.stderr.write = access.write.bind(access);*/
 
-// add classes for JADX and apktool
-java.classpath.pushDir(__dirname+path.sep+'java/jadx/');
+// add classes for DEX 2 JAR, apktool and jd-cli
+java.classpath.pushDir(__dirname+path.sep+'java/dex2jar/');
 java.classpath.pushDir(__dirname+path.sep+'java/');
 //
 
@@ -26,9 +26,15 @@ var	classes 	= 	{
 	libResources 	: 	java.import('brut.androlib.res.AndrolibResources'),
 	ExtFile 		: 	java.import('brut.directory.ExtFile'),
 	File 			:	java.import('java.io.File'),
-	//jadx
-	_jadx 			: 	java.import('jadx.api.JadxDecompiler'),
-	_jadx_args		: 	java.import('jadx.cli.JadxCLIArgs')
+	//dex2jar
+	_dex2jar 	 	: 	java.import('com.googlecode.d2j.dex.Dex2jar'),
+	_dexFileReader	: 	java.import('com.googlecode.d2j.reader.DexFileReader'),
+	_dexZipUtil		: 	java.import('com.googlecode.d2j.reader.zip.ZipUtil'),
+	//jd-cli
+	_jdCli 					: 	java.import('jd.cli.Main'),
+	_jdCli_DirOutput 		: 	java.import('jd.core.output.DirOutput'),
+	_jdCli_MultiOutput 		: 	java.import('jd.core.output.MultiOutput'),
+	_jdCli_JavaDecompiler 	: 	java.import('jd.ide.intellij.JavaDecompiler')
 };
 
 var init = function(config) {
@@ -73,7 +79,7 @@ var decompile = function(onReady) {
 	// extract classes.dex into output
 	extract_dex(function() {
 		// decrypt dex into jar, using dex2jar
-		/*dexToJar(function() {
+		dexToJar(function() {
 			// get java code using jd-cli
 			var _dir = new classes.File(_last.dir + 'src' + path.sep);
 			var _dexjar = new classes.File(_last.dir + 'classes.jar');
@@ -85,16 +91,7 @@ var decompile = function(onReady) {
 			var javaDecompiler = new classes._jdCli_JavaDecompiler();
 			inOut.getJdInputSync().decompileSync(javaDecompiler, inOut.getJdOutputSync());
 			onReady();
-		});*/
-		// decrypt dex into src, using jadx
-		var _dir = new classes.File(_last.dir + 'src' + path.sep);
-		var _dex = new classes.File(_last.dir + 'classes.dex');
-		var _args = new classes._jadx_args();
-		_args.setOutputDir(_dir);
-		var jadx = new classes._jadx();
-		jadx.setOutputDir(_dir);
-		jadx.loadFile(_dex);
-		jadx.saveSync();
+		});
 	});
 };
 
