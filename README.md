@@ -28,6 +28,9 @@ apk_unpack apkfile.apk outputdir
 ```
 
 ## UPDATES
+version 1.2.2:
+- updated apktool and JADX to latest versions.
+- please consider npm java requires python 2.7 to be installed.
 
 version 1.2.1:
 - avoided error that hanged the jvm thread sometimes.

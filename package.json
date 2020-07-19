@@ -1,6 +1,6 @@
 {
   "name": "apk_unpack",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "NodeJS APK unpacker",
   "main": "apk_unpack.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "java": "^0.8.0",
+    "java": "*",
     "line-reader": "^0.4.0",
     "yauzl": "^2.7.0"
   },
