@@ -1,12 +1,24 @@
-APK Unpack
-==============================
+![APK Unpack](https://user-images.githubusercontent.com/57605485/133168424-0cae7b07-1e80-454d-b5b3-94a15d73dd23.png)
+
 ## INTRO
 
-This package and command-line helps you unpack any APK (get its assets and java sources) and decrypt its manifest.  
-It contains 4 main methods:
+This package and command-line helps you unpack any APK (get its assets and java sources) and decrypt its manifest.
+To install, execute the following on your terminal:
+
+```bash
+npm i puntorigen/apk_unpack
+```
+
+And use it as follows:
+
+```bash
+apk_unpack apkfile.apk outputdir
+```
+
+As a class, it contains 4 public methods:
 
 ### init (config).  
-Initializes the component. Can have the keys:<br/>
+Initializes the component. Accepts an object with keys:<br/>
 apk (apkfile to open),<br/>
 dir (outputdir),<br/>
 java (true if you want the decrypted classes.jar)<br/><br/>
@@ -19,13 +31,6 @@ This extracts and decrypts the classes.dex from the given APK, also recovers .ja
 
 ### info (callback(err,data)).  
 Retrieves decrypted manifest information about the extracted apkfile from method one.  
-
-## USAGE
-It comes with a commandline that you can use as follows:  
-
-```javascript
-apk_unpack apkfile.apk outputdir
-```
 
 ## UPDATES
 version 1.2.2:
