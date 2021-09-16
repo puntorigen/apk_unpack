@@ -6,7 +6,7 @@ This package and command-line helps you unpack any APK (get its assets and java 
 To install, execute the following on your terminal:
 
 ```bash
-npm i puntorigen/apk_unpack
+npm i -g puntorigen/apk_unpack
 ```
 
 And use it as follows:
